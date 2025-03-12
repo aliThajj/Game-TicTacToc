@@ -1,0 +1,63 @@
+.board {
+  display: grid;
+  grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+  gap: 15px;
+  /* width: 480px;. */
+  max-height: 460px;
+  margin: 20px 0;
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1f3641;
+  color: #fff;
+  font-size: 6rem;
+  border-radius: 15px;
+  border: none;
+  box-shadow: inset 0 -8px 0 #10212a;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;
+  overflow: hidden;
+  transition: box-shadow .1s ease-out, transform .1s ease-out, background-color .1s ease-out;
+  -webkit-transition: box-shadow .1s ease-out, transform .1s ease-out, background-color .1s ease-out;
+  -moz-transition: box-shadow .1s ease-out, transform .1s ease-out, background-color .1s ease-out;
+  -ms-transition: box-shadow .1s ease-out, transform .1s ease-out, background-color .1s ease-out;
+  -o-transition: box-shadow .1s ease-out, transform .1s ease-out, background-color .1s ease-out;
+}
+
+.cell:not(.cell.no-empty)::before {
+  content: var(--before-content);
+  ;
+  top: 50%;
+  color: #fff;
+  font-size: 6rem;
+  right: 50%;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opaciity 2s ease-in-out;
+  -webkit-transition: opaciity 2s ease-in-out;
+  -moz-transition: opaciity 2s ease-in-out;
+  -ms-transition: opaciity 2s ease-in-out;
+  -o-transition: opaciity 2s ease-in-out;
+}
+
+.cell:not(.cell.no-empty):hover::before {
+  opacity: 1;
+}
+
+.cell:disabled:not(.cell.no-empty)::before {
+  opacity: 0;
+}
+
+.cell.no-empty {
+  box-shadow: inset 0 -4px 0 #10212a;
+}
+
+.cell:disabled {
+  cursor: no-drop;
+}

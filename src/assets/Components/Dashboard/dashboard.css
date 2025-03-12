@@ -1,0 +1,112 @@
+.dashboard {
+    padding: 24px 24px 29px !important;
+    text-align: center !important;
+    background-color: #1f3641;
+    box-shadow: inset 0 -8px 0 #10212a;
+    border-radius: 15px;
+    /* width: 480px; */
+  }
+  
+  .dashboard h1 {
+    font-size: 1.2rem;
+    line-height: 20.16px;
+    letter-spacing: 1px;
+    font-weight: 700;
+    color: #a8bfc9;
+    font-family: outfit;
+    padding-left: 2px;
+  }
+  
+  .dashboard .choices {
+    position: relative;
+    height: 72px;
+    padding: 9px;
+    background-color: #1a2a33;
+    border-radius: 15px;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    -ms-border-radius: 15px;
+    -o-border-radius: 15px;
+    z-index: 1;
+  }
+  
+  .slider {
+    position: absolute;
+    top: 7.5px;
+    left: 7.5px;
+    width: 50%;
+    height: calc(100% - 15px);
+    background-color: #a8bfc9;
+    border-radius: 15px !important;
+    -webkit-border-radius: 15px !important;
+    -moz-border-radius: 15px !important;
+    -ms-border-radius: 15px !important;
+    -o-border-radius: 15px !important;
+    z-index: 0;
+    /* opacity: 0;
+    z-index: -1; */
+    transition: all 0.3s ease;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+  }
+  
+  .slider.X {
+    /* opacity: 1;
+    z-index: 0; */
+    transform: translateX(0);
+    -webkit-transform: translateX(0);
+    -moz-transform: translateX(0);
+    -ms-transform: translateX(0);
+    -o-transform: translateX(0);
+  }
+  
+  .slider.O {
+    /* opacity: 1;
+    z-index: 0; */
+    transform: translateX(calc(100% - 15px));
+    -webkit-transform: translateX(calc(100% - 15px));
+    -moz-transform: translateX(calc(100% - 15px));
+    -ms-transform: translateX(calc(100% - 15px));
+    -o-transform: translateX(calc(100% - 15px));
+  }
+  
+  .choices button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: bold;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 15px;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    -ms-border-radius: 15px;
+    -o-border-radius: 15px;
+    transition: all 0.3s ease;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    z-index: 1;
+  }
+  
+  .choices button:hover {
+    background-color: rgba(168, 191, 201, .05);
+    border-radius: 10px;
+  }
+  
+  .choices button.active {
+    color: var(--primary-color);
+  }
+  
+  .choices+button {
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+  }

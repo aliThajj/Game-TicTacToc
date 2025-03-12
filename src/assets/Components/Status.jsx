@@ -1,17 +1,28 @@
-// src/components/Status.jsx
-import React from "react";
+import PropTypes from "prop-types";
 
-function Status({ winner, isDraw, aiThink }) {
-  if (winner) {
-    return <p className="status">Winner: {winner}</p>;
+function Status({ isDraw, aiThink, playerSymbol, winnerInfo }) {
+  // console.log(winnerInfo)
+  if (winnerInfo?.winner) {
+    return <label className="status">Winner: <span className={`mx-3 uppercase ${winnerInfo.winner === "X" ? 'text-teal-500' : 'text-yellow-400'}`}>{winnerInfo.winner}</span></label>;
   }
   if (isDraw) {
-    return <p className="status">It's a draw!</p>;
+    return <label className="status">It's a draw!</label>;
   }
-  // return <p className="status">Next player: X</p>; // Human is always X
   if (aiThink) {
-    return <p className="status">AI Thinking... </p>; // Human is always X
-  } else return <p className="status">Your Turn: X</p>; // Human is always X
+    return <label className="status">AI Thinking...</label>;
+  }
+  if (playerSymbol) {
+    return <label className="status">Your Turn <span className={`mx-3 uppercase ${playerSymbol === "X" ? 'text-teal-500' : 'text-yellow-400'}`}>{playerSymbol}</span></label>;
+  }
+
 }
+
+// Define PropTypes
+Status.propTypes = {
+  winner: PropTypes.string, // winner should be a string
+  isDraw: PropTypes.bool, // isDraw should be a boolean
+  aiThink: PropTypes.bool, // aiThink should be a boolean
+  playerSymbol: PropTypes.string, // playerSymbol should be a string
+};
 
 export default Status;
