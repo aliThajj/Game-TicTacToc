@@ -12,8 +12,8 @@
     line-height: 20.16px;
     letter-spacing: 1px;
     font-weight: 700;
-    color: #a8bfc9;
-    font-family: outfit;
+    color: var(--secondary-color);
+    font-family: cursive;
     padding-left: 2px;
   }
   
@@ -36,7 +36,7 @@
     left: 7.5px;
     width: 50%;
     height: calc(100% - 15px);
-    background-color: #a8bfc9;
+    background-color: var(--secondary-color);
     border-radius: 15px !important;
     -webkit-border-radius: 15px !important;
     -moz-border-radius: 15px !important;

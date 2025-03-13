@@ -15,6 +15,8 @@ function App() {
   const [winnerInfo, setWinnerInfo] = useState(null);
   const [isGameStart, setGameStart] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [difficulty, setDifficulty] = useState('easy'); // Default to hard difficulty
+
 
 
   useEffect(() => {
@@ -43,6 +45,7 @@ function App() {
       setGameStart(true);
       console.log('savedPlayerSymbol:' + localStorage.getItem('savedPlayerSymbol'));
       console.log('savedOpponentSymbol:' + localStorage.getItem('savedOpponentSymbol'));
+      console.log('savedDifficulty:' + difficulty);
     }
     else {
       setGameStart(false);
@@ -60,10 +63,11 @@ function App() {
     setPlayerSymbol(localStorage.getItem('savedPlayerSymbol'));
     opponentSymbolRef.current = localStorage.getItem('savedOpponentSymbol');
     // opponentSymbolRef.current === "X" ? "O" : "X";
-    console.log('Restart => player symbol is :' + playerSymbol)
-    console.log('Restart => opponent sybmol is :' + opponentSymbolRef.current)
     setAiThinking(false);
     setWinnerInfo(null);
+    console.log('Restart => player symbol is :' + playerSymbol);
+    console.log('Restart => opponent sybmol is :' + opponentSymbolRef.current);
+    console.log('Restart => level is :' + difficulty);
 
   };
 
@@ -79,15 +83,16 @@ function App() {
     opponentSymbolRef.current = 'X' // By Default AI is 'X'
     console.log('Reset => player symbol is :' + playerSymbol)
     console.log('Reset => opponent sybmol is :' + opponentSymbolRef.current)
+    console.log('Reset => difficulty :' + difficulty)
   }
 
   // ### Player Move function
   function handleClick(index) {
     if (!playerSymbol || board[index] || winnerInfo) return; // Prevent moves if the game is over
 
-    // Human move (always X)
+    // console.log('theDifficulty :' + difficulty)
+    // Player Move
     const newBoard = [...board];
-    // newBoard[index] = "X";
     newBoard[index] = playerSymbol;
     setBoard(newBoard);
     setAiThinking(true);
@@ -98,7 +103,7 @@ function App() {
       return;
     }
 
-    // AI move (always O)
+    // AI move 
     const aiMove = getAIMove(newBoard);
     if (aiMove !== null) {
       setTimeout(() => {
@@ -117,60 +122,122 @@ function App() {
   };
 
   // ### AI Move Function
+  // function getAIMove(board) {
+  //   const minimax = (board, depth, isMaximizing, alpha, beta) => {
+  //     const result = calculateWinner(board);
+
+  //     // Use dynamic symbols
+  //     if (result?.winner === opponentSymbolRef.current) return 10 - depth; // AI wins
+  //     if (result?.winner === playerSymbol) return depth - 10; // Player wins
+  //     if (board.every((cell) => cell !== null)) return 0; // Draw
+
+  //     if (isMaximizing) {
+  //       let bestScore = -Infinity;
+  //       for (let i = 0; i < board.length; i++) {
+  //         if (board[i] === null) {
+  //           const newBoard = [...board];
+  //           newBoard[i] = opponentSymbolRef.current; // AI's symbol
+  //           const score = minimax(newBoard, depth + 1, false, alpha, beta);
+  //           bestScore = Math.max(score, bestScore);
+  //           alpha = Math.max(alpha, bestScore);
+  //           if (beta <= alpha) break;
+  //         }
+  //       }
+  //       return bestScore;
+  //     } else {
+  //       let bestScore = Infinity;
+  //       for (let i = 0; i < board.length; i++) {
+  //         if (board[i] === null) {
+  //           const newBoard = [...board];
+  //           newBoard[i] = playerSymbol; // Player's symbol
+  //           const score = minimax(newBoard, depth + 1, true, alpha, beta);
+  //           bestScore = Math.min(score, bestScore);
+  //           beta = Math.min(beta, bestScore);
+  //           if (beta <= alpha) break;
+  //         }
+  //       }
+  //       return bestScore;
+  //     }
+  //   };
+
+
+  //   let bestMove = null;
+  //   let bestScore = -Infinity;
+  //   for (let i = 0; i < board.length; i++) {
+  //     if (board[i] === null) {
+  //       const newBoard = [...board];
+  //       newBoard[i] = opponentSymbolRef.current; // Use AI's symbol
+  //       const score = minimax(newBoard, 0, false, -Infinity, Infinity);
+  //       if (score > bestScore) {
+  //         bestScore = score;
+  //         bestMove = i;
+  //       }
+  //     }
+  //   }
+  //   return bestMove;
+  // };
+
+
   function getAIMove(board) {
-    const minimax = (board, depth, isMaximizing, alpha, beta) => {
-      const result = calculateWinner(board);
+    if (difficulty === 'easy') {
+      // Easy level: Make a random move
+      const availableMoves = board.map((cell, index) => cell === null ? index : null).filter(val => val !== null);
+      return availableMoves[Math.floor(Math.random() * availableMoves.length)];
+    } else {
+      // Hard level: Use minimax algorithm
+      const minimax = (board, depth, isMaximizing, alpha, beta) => {
+        const result = calculateWinner(board);
 
-      // Use dynamic symbols
-      if (result?.winner === opponentSymbolRef.current) return 10 - depth; // AI wins
-      if (result?.winner === playerSymbol) return depth - 10; // Player wins
-      if (board.every((cell) => cell !== null)) return 0; // Draw
+        // Use dynamic symbols
+        if (result?.winner === opponentSymbolRef.current) return 10 - depth; // AI wins
+        if (result?.winner === playerSymbol) return depth - 10; // Player wins
+        if (board.every((cell) => cell !== null)) return 0; // Draw
 
-      if (isMaximizing) {
-        let bestScore = -Infinity;
-        for (let i = 0; i < board.length; i++) {
-          if (board[i] === null) {
-            const newBoard = [...board];
-            newBoard[i] = opponentSymbolRef.current; // AI's symbol
-            const score = minimax(newBoard, depth + 1, false, alpha, beta);
-            bestScore = Math.max(score, bestScore);
-            alpha = Math.max(alpha, bestScore);
-            if (beta <= alpha) break;
+        if (isMaximizing) {
+          let bestScore = -Infinity;
+          for (let i = 0; i < board.length; i++) {
+            if (board[i] === null) {
+              const newBoard = [...board];
+              newBoard[i] = opponentSymbolRef.current; // AI's symbol
+              const score = minimax(newBoard, depth + 1, false, alpha, beta);
+              bestScore = Math.max(score, bestScore);
+              alpha = Math.max(alpha, bestScore);
+              if (beta <= alpha) break;
+            }
+          }
+          return bestScore;
+        } else {
+          let bestScore = Infinity;
+          for (let i = 0; i < board.length; i++) {
+            if (board[i] === null) {
+              const newBoard = [...board];
+              newBoard[i] = playerSymbol; // Player's symbol
+              const score = minimax(newBoard, depth + 1, true, alpha, beta);
+              bestScore = Math.min(score, bestScore);
+              beta = Math.min(beta, bestScore);
+              if (beta <= alpha) break;
+            }
+          }
+          return bestScore;
+        }
+      };
+
+      let bestMove = null;
+      let bestScore = -Infinity;
+      for (let i = 0; i < board.length; i++) {
+        if (board[i] === null) {
+          const newBoard = [...board];
+          newBoard[i] = opponentSymbolRef.current; // Use AI's symbol
+          const score = minimax(newBoard, 0, false, -Infinity, Infinity);
+          if (score > bestScore) {
+            bestScore = score;
+            bestMove = i;
           }
         }
-        return bestScore;
-      } else {
-        let bestScore = Infinity;
-        for (let i = 0; i < board.length; i++) {
-          if (board[i] === null) {
-            const newBoard = [...board];
-            newBoard[i] = playerSymbol; // Player's symbol
-            const score = minimax(newBoard, depth + 1, true, alpha, beta);
-            bestScore = Math.min(score, bestScore);
-            beta = Math.min(beta, bestScore);
-            if (beta <= alpha) break;
-          }
-        }
-        return bestScore;
       }
-    };
-
-
-    let bestMove = null;
-    let bestScore = -Infinity;
-    for (let i = 0; i < board.length; i++) {
-      if (board[i] === null) {
-        const newBoard = [...board];
-        newBoard[i] = opponentSymbolRef.current; // Use AI's symbol
-        const score = minimax(newBoard, 0, false, -Infinity, Infinity);
-        if (score > bestScore) {
-          bestScore = score;
-          bestMove = i;
-        }
-      }
+      return bestMove;
     }
-    return bestMove;
-  };
+  }
 
   // ### Draw Logic
   const isDraw = board.every((square) => square !== null);
@@ -181,13 +248,21 @@ function App() {
   };
 
 
-
   return <>
     <section className="game">
       <div className="board-holder mx-3 lg:w-2/6 md:w-9/12 w-11/12">
         {!isGameStart ?
           <Dashboard playerSymbol={playerSymbol} onChoose={ChooseSymbol} >
-            <button className="bg-yellow-400 hover:bg-yellow-300 w-full h-12 font-bold text-primary" onClick={startGame}>START GAME</button>
+            <div className="flex justify-between items-center gap-2">
+              <select
+                value={difficulty}
+                onChange={(e) => setDifficulty(e.target.value)}
+                className="block w-1/2 h-12 text-b text-primary font-bold uppercase text-center rounded-lg focus:outline-none focus:none">
+                <option value="easy">Easy</option>
+                <option value="hard">Hard</option>
+              </select>
+              <button className="bg-yellow-400 hover:bg-yellow-300 w-1/2 h-12 font-bold rounded-lg text-primary" onClick={startGame}>START GAME</button>
+            </div>
           </Dashboard>
           :
           <div className="flex flex-col items-center justify-center w-full">

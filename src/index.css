@@ -87,7 +87,7 @@ section.game {
 .close-modal,
 .play-again {
   height: 100%;
-  padding: 0 16px;
+  padding: 4px 16px;
   border-radius: 10px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
@@ -123,10 +123,8 @@ dialog {
   background-color: var(--primary-color);
 }
 
-/* @media (min-width: 300px) {
-  .restart-button,
-  .close-modal,
-  .play-again{
-    font-size: 23px;
-  }
-} */
+.game select,
+.game select {
+  background-color: var(--secondary-color);
+
+}
