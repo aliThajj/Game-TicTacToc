@@ -37,8 +37,7 @@ function Board({ board, onClick, aiThink, winningLine, playerSymbol }) {
             "flip-animation": flippedCells.includes(index), // Add flip animation class
           })}
           onClick={() => handleClick(index)}
-          disabled={aiThink || winningLine || value}
-        >
+          disabled={aiThink || winningLine || value}>
           {value}
         </button>
       ))}

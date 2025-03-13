@@ -14,8 +14,8 @@ export default defineConfig({
     include: ['react', 'react-dom'] // Explicitly include dependencies
   },
   base: '/Game-TicTacToc/',
-  server: {
-    port: 5173,
-    host: true,
-  }
+  // server: {
+  //   port: 5173,
+  //   host: true,
+  // }
 })
