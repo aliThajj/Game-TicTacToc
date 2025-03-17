@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 
 export default function Dialog({ isOpen, onClose, children }) {
     const dialogRef = useRef(null);
@@ -13,15 +14,16 @@ export default function Dialog({ isOpen, onClose, children }) {
             setIsVisible(false);
             setTimeout(() => {
                 dialogRef.current.close();
-            }, 300); // Match the duration of the fade-out animation
+            }, 300); // Match the duration of the drop animation
         }
     }, [isOpen]);
 
-    return (
+    return createPortal(
         <dialog
             ref={dialogRef}
             className={`p-6 rounded-lg shadow-lg backdrop:bg-black backdrop:opacity-50 ${isVisible ? 'drop-in' : 'drop-out'}`}>
             {children}
-        </dialog>
+        </dialog>,
+        document.getElementById('modal')
     );
 };
