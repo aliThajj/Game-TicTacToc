@@ -1,27 +1,27 @@
-import PropTypes from "prop-types";
 
 export default function TheStatus({ isDraw, aiThink, playerSymbol, winnerInfo }) {
   // console.log(winnerInfo)
   if (winnerInfo?.winner) {
-    return <label className="status">Winner: <span className={`mx-3 uppercase ${winnerInfo.winner === "X" ? 'text-teal-500' : 'text-yellow-400'}`}>{winnerInfo.winner}</span></label>;
+    return <div className="status">Winner: <span className={`mx-3 uppercase sm:text-3xl ${winnerInfo.winner === "X" ? 'text-teal-500' : 'text-yellow-400'}`}>{winnerInfo.winner}</span></div>;
   }
   if (isDraw) {
-    return <label className="status">It's a draw!</label>;
+    return <div className="status">It's a draw!</div>;
   }
   if (aiThink) {
-    return <label className="status">AI Thinking...</label>;
+    return <div className="status ai">
+      <p className="mb-0">AI Thinking </p>
+      <div className="snippet" data-title="dot-flashing">
+        <div className="stage">
+          <div className="dot-flashing"></div>
+        </div>
+      </div>
+    </div>;
   }
   if (playerSymbol) {
-    return <label className="status">Your Turn <span className={`mx-3 uppercase ${playerSymbol === "X" ? 'text-teal-500' : 'text-yellow-400'}`}>{playerSymbol}</span></label>;
+    return <div className="status">Your Turn <span className={`mx-3 uppercase sm:text-3xl  ${playerSymbol === "X" ? 'text-teal-500' : 'text-yellow-400'}`}>{playerSymbol}</span></div>;
   }
 
 }
 
-// Define PropTypes
-// Status.propTypes = {
-//   winner: PropTypes.string, // winner should be a string
-//   isDraw: PropTypes.bool, // isDraw should be a boolean
-//   aiThink: PropTypes.bool, // aiThink should be a boolean
-//   playerSymbol: PropTypes.string, // playerSymbol should be a string
-// };
+
 
